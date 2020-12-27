@@ -30,8 +30,12 @@
     <div id="movementButtons">
         <button id="Up" name="response" value="Up">Up</button>
         <div>
-            <button id="Left" name="response" value="Left">Left</button>
-            <button id="Right" name="response" value="Right">Right</button>
+            <button id="Forward" name="response" value="Forward">Forward</button>
+            <div>
+                <button id="Left" name="response" value="Left">Left</button>
+                <button id="Right" name="response" value="Right">Right</button>
+            </div>
+            <button id="Back" name="response" value="Back">Back</button>
         </div>
         <button id="Down" name="response" value="Down">Down</button>
     </div>
@@ -49,7 +53,7 @@
         document.getElementById('status').innerHTML = 'status: connected'
     });
 
-    let buttonArray = ['Up', 'Left', 'Right', 'Down']
+    let buttonArray = ['Up', 'Forward', 'Left', 'Right', 'Back', 'Down']
     buttonArray.forEach(button => {
         document.getElementById(button).addEventListener('click', () => {
             socket.send(button)

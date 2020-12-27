@@ -20,6 +20,6 @@ websocket.on("request", request => {
     connection = request.accept(null, request.origin)
     connection.on("message", message => {
         console.log(`Message from client: ${message.utf8Data}`)
-        connection.send(`this message was recieved: ${message.utf8Data}`)
+        connection.send(`This message was recieved: ${message.utf8Data}`)
     })
 })
