@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Attempt</title>
+    <style>
+        * {
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin: 10px auto;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>WebSocket</h1>
+    <p id="status">status: not connected</p>
+    <div id="movementButtons">
+        <button id="Up" name="response" value="Up">Up</button>
+        <div>
+            <button id="Left" name="response" value="Left">Left</button>
+            <button id="Right" name="response" value="Right">Right</button>
+        </div>
+        <button id="Down" name="response" value="Down">Down</button>
+    </div>
+
+</body>
+<script>
+
+    const socket = new WebSocket('ws://localhost:8080')
+
+    socket.addEventListener('message', message => {
+        console.log('Message from server: ', message.data)
+    })
+
+    socket.addEventListener('open', () => {
+        document.getElementById('status').innerHTML = 'status: connected'
+    });
+
+    let buttonArray = ['Up', 'Left', 'Right', 'Down']
+    buttonArray.forEach(button => {
+        document.getElementById(button).addEventListener('click', () => {
+            socket.send(button)
+        })
+    })
+
+</script>
+
+</html>
