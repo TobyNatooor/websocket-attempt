@@ -16,9 +16,13 @@
             margin: 10px auto;
         }
 
+        #status {
+            margin: 10px;
+        }
+
         button {
-            padding: 10px;
-            margin: 5px;
+            padding: 5px 10px;
+            margin: 1px 5px;
         }
     </style>
 </head>
@@ -28,16 +32,16 @@
     <h1>WebSocket</h1>
     <p id="status">status: not connected</p>
     <div id="movementButtons">
-        <button id="Up" name="response" value="Up">Up</button>
+        <button id="Up">Up</button>
         <div>
-            <button id="Forward" name="response" value="Forward">Forward</button>
+            <button id="Forward">Forward</button>
             <div>
-                <button id="Left" name="response" value="Left">Left</button>
-                <button id="Right" name="response" value="Right">Right</button>
+                <button id="Left">Left</button>
+                <button id="Right">Right</button>
             </div>
-            <button id="Back" name="response" value="Back">Back</button>
+            <button id="Back">Back</button>
         </div>
-        <button id="Down" name="response" value="Down">Down</button>
+        <button id="Down">Down</button>
     </div>
 
 </body>
@@ -45,13 +49,17 @@
 
     const socket = new WebSocket('ws://localhost:8080')
 
-    socket.addEventListener('message', message => {
-        console.log('Message from server: ', message.data)
-    })
-
     socket.addEventListener('open', () => {
         document.getElementById('status').innerHTML = 'status: connected'
     });
+
+    socket.addEventListener('close', () => {
+        document.getElementById('status').innerHTML = 'status: disconnected'
+    });
+
+    socket.addEventListener('message', message => {
+        console.log('Message from server: ', message.data)
+    })
 
     let buttonArray = ['Up', 'Forward', 'Left', 'Right', 'Back', 'Down']
     buttonArray.forEach(button => {
