@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="canvas.js" type="module" defer></script>
+    <script src="client.js" type="module" defer></script>
     <title>WebSocket Attempt</title>
     <style>
         * {
@@ -13,6 +15,7 @@
         }
 
         h1 {
+            font-size: 40px;
             margin: 10px auto;
         }
 
@@ -21,15 +24,22 @@
         }
 
         button {
+            font-size: 15px;
             padding: 5px 10px;
             margin: 1px 5px;
+        }
+
+        #theCanvas {
+            margin-top: 30px;
+            width: 80vw;
+            height: 60vh;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>WebSocket</h1>
+    <h1>Mining Turtle WebSocket</h1>
     <p id="status">status: not connected</p>
     <div id="movementButtons">
         <button id="Up">Up</button>
@@ -44,30 +54,8 @@
         <button id="Down">Down</button>
     </div>
 
+    <canvas id="theCanvas"></canvas>
+
 </body>
-<script>
-
-    const socket = new WebSocket('ws://localhost:8080')
-
-    socket.addEventListener('open', () => {
-        document.getElementById('status').innerHTML = 'status: connected'
-    });
-
-    socket.addEventListener('close', () => {
-        document.getElementById('status').innerHTML = 'status: disconnected'
-    });
-
-    socket.addEventListener('message', message => {
-        console.log('Message from server: ', message.data)
-    })
-
-    let buttonArray = ['Up', 'Forward', 'Left', 'Right', 'Back', 'Down']
-    buttonArray.forEach(button => {
-        document.getElementById(button).addEventListener('click', () => {
-            socket.send(button)
-        })
-    })
-
-</script>
 
 </html>
