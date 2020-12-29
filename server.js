@@ -12,8 +12,10 @@ s.on('connection', ws => {
     ws.on('message', message => {
         console.log('message from client: ' + message)
 
+        //send message to everyone except the one that wrote it
         s.clients.forEach(client => {
-            client.send(message)
+            if (client != ws)
+                client.send(message)
         })
     })
 

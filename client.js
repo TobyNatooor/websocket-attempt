@@ -13,7 +13,8 @@ socket.addEventListener('close', () => {
 
 socket.addEventListener('message', message => {
     console.log('Message from server: ', message.data)
-    if (message.data.includes("From turtle:")) {
+
+    if (message.data.includes("From turtle: ")) {
 
         let data = message.data.replace("From turtle: ", "")
         data = data.split(" ")
@@ -26,13 +27,13 @@ socket.addEventListener('message', message => {
     }
 })
 
-let buttonArray = ['Up', 'Forward', 'Left', 'Right', 'Back', 'Down']
+let buttonArray = ['Up', 'Forward', 'Left', 'Right', 'Back', 'Down', 'Refuel', 'Dig']
 buttonArray.forEach(button => {
     document.getElementById(button).addEventListener('click', () => {
-        socket.send(button)
+        socket.send('From control panel: ' + button)
     })
 })
 
 document.getElementById('status').addEventListener('click', () => {
-    newBlock({ x: 0, y: 1, z: 0 }, 'green')
+    newBlock({ x: 0, y: 0, z: 1 }, 'green')
 })
