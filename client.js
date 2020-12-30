@@ -1,7 +1,8 @@
 
-import { newBlock } from './canvas.js'
+import { newBlock, objects } from './canvas.js'
 
 const socket = new WebSocket('ws://localhost:8080')
+let turtleData
 
 socket.addEventListener('open', () => {
     document.getElementById('status').innerHTML = 'status: connected'
@@ -12,18 +13,15 @@ socket.addEventListener('close', () => {
 })
 
 socket.addEventListener('message', message => {
-    console.log('Message from server: ', message.data)
 
     if (message.data.includes("From turtle: ")) {
+        turtleData = message.data.replace("From turtle: ", "")
+        turtleData = JSON.parse(turtleData)
+        console.log(turtleData)
 
-        let data = message.data.replace("From turtle: ", "")
-        data = data.split(" ")
-        let blockType = data[0]
-        let blockCoord = { x: data[1], y: data[2], z: data[3] }
-        console.log(blockType)
-        console.log(blockCoord)
-
-        newBlock(blockCoord, 'green')
+        //newBlock(blockCoord, 'green')
+    } else {
+        console.log('Message from server: ', message.data)
     }
 })
 
@@ -35,5 +33,5 @@ buttonArray.forEach(button => {
 })
 
 document.getElementById('status').addEventListener('click', () => {
-    newBlock({ x: 0, y: 0, z: 1 }, 'green')
+    console.log(objects)
 })

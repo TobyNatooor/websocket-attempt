@@ -26,7 +26,8 @@ const controls = new OrbitControls(camera, theCanvas)
 controls.target.set(0, 0, 0)
 controls.update()
 //object(s)
-let geometry, edges, lines, material, cube
+export let objects = {}
+let geometry, edges, lines, material, cube, coord
 export const newBlock = (pos, blockColor) => {
     geometry = new THREE.BoxGeometry(1, 1, 1)
     edges = new THREE.EdgesGeometry(geometry)
@@ -42,7 +43,19 @@ export const newBlock = (pos, blockColor) => {
     cube.position.set(pos.x, pos.y, pos.z)
     scene.add(cube)
 }
+//remove objects
+const removeBlocks = (object) => {
+    for (let i = 0; i < 2; i++) {
+        object[i].geometry.dispose()
+        object[i].material.dispose()
+        scene.remove(object[i])
+    }
+    renderer.renderLists.dispose()
+}
 newBlock({ x: 0, y: 0, z: 0 }, 'red')
+//newBlock({ x: 0, y: 1, z: 0 }, 'red')
+//removeBlocks(objects[0])
+
 
 //animate
 const animate = () => {
