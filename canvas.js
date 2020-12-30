@@ -41,27 +41,26 @@ export const newBlock = (pos, blockColor, isTurtle) => {
     scene.add(lines)
     material = new THREE.MeshPhongMaterial({
         color: blockColor,
-        opacity: isTurtle ? .8 : 0.4,
+        opacity: isTurtle ? 0.5 : 0.3,
         transparent: true,
     })
     cube = new THREE.Mesh(geometry, material)
     cube.position.set(pos.x, pos.y, pos.z)
     scene.add(cube)
-    isTurtle ? turtle = [cube, lines] : console.log('')
+    isTurtle ? turtle = [cube, lines] : objects[`${pos.x} ${pos.y} ${pos.z}`] = [cube, lines]
 }
 //remove objects
-const removeBlocks = (object) => {
+export const removeBlock = (object) => {
     for (let i = 0; i < 2; i++) {
         object[i].geometry.dispose()
         object[i].material.dispose()
         scene.remove(object[i])
     }
     renderer.renderLists.dispose()
+    //delete object
 }
 newBlock({ x: 0, y: 0, z: 0 }, 'red', 'turtle')
 //newBlock({ x: 0, y: 1, z: 0 }, 'red')
-//removeBlocks(objects[0])
-
 
 //animate
 const animate = () => {
