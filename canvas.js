@@ -27,21 +27,27 @@ controls.target.set(0, 0, 0)
 controls.update()
 //object(s)
 export let objects = {}
-let geometry, edges, lines, material, cube, coord
-export const newBlock = (pos, blockColor) => {
+export let turtle = []
+export let geometry, edgeGeo, lines, material, cube, lineMat
+export const newBlock = (pos, blockColor, isTurtle) => {
     geometry = new THREE.BoxGeometry(1, 1, 1)
-    edges = new THREE.EdgesGeometry(geometry)
-    lines = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 'white' }));
+    edgeGeo = new THREE.EdgesGeometry(geometry)
+    lineMat = new THREE.LineBasicMaterial({
+        color: 'white',
+        linewidth: 50,
+    })
+    lines = new THREE.LineSegments(edgeGeo, lineMat);
     lines.position.set(pos.x, pos.y, pos.z)
     scene.add(lines)
     material = new THREE.MeshPhongMaterial({
         color: blockColor,
-        opacity: 0.35,
+        opacity: isTurtle ? .8 : 0.4,
         transparent: true,
     })
     cube = new THREE.Mesh(geometry, material)
     cube.position.set(pos.x, pos.y, pos.z)
     scene.add(cube)
+    isTurtle ? turtle = [cube, lines] : console.log('')
 }
 //remove objects
 const removeBlocks = (object) => {
@@ -52,7 +58,7 @@ const removeBlocks = (object) => {
     }
     renderer.renderLists.dispose()
 }
-newBlock({ x: 0, y: 0, z: 0 }, 'red')
+newBlock({ x: 0, y: 0, z: 0 }, 'red', 'turtle')
 //newBlock({ x: 0, y: 1, z: 0 }, 'red')
 //removeBlocks(objects[0])
 
