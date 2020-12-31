@@ -65,7 +65,6 @@ export const removeBlock = (object, propName) => {
     delete object[propName]
 }
 newBlock({ x: 0, y: 0, z: 0 }, 'red', 'turtle')
-newBlock({ x: 1, y: 0, z: 0 }, 'green')
 
 //animate
 const animate = () => {
