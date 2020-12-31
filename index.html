@@ -9,9 +9,15 @@
     <title>WebSocket Attempt</title>
     <style>
         * {
+            box-sizing: border-box;
             text-align: center;
             margin: 0;
             padding: 0;
+        }
+
+        :root {
+            --canvasWidth: 100vw;
+            --canvasHeight: 60vh;
         }
 
         h1 {
@@ -39,8 +45,8 @@
         #theCanvas {
             border: 2px solid rgb(0, 0, 0);
             margin-top: 30px;
-            width: 80vw;
-            height: 60vh;
+            width: var(--canvasWidth);
+            height: var(--canvasHeight);
         }
     </style>
 </head>
