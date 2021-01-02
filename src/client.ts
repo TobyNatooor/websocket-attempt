@@ -1,12 +1,12 @@
 
-import * as cv from './canvas.js'
+import * as cv from '../canvas.js'
 
 const socket: WebSocket = new WebSocket('ws://localhost:8080')
-let blockCoords: BlockCoords = {}
-let tData: TData = {}
+let blockCoords: BlockCoords | any = {}
+let tData: TData | any = {}
 let tDataString: string
 let btnNames: Array<string> = []
-let btnObjects: HTMLCollectionOf<Element> = document.getElementById('movementButtons').getElementsByTagName("*")
+let btnObjects: HTMLCollectionOf<Element> = document.getElementById('movementButtons')!.getElementsByTagName("*")
 
 interface TData {
     coord: Coord,
@@ -37,15 +37,15 @@ for (let i in btnObjects) {
 }
 
 socket.addEventListener('open', () => {
-    document.getElementById('status').innerHTML = 'status: connected'
+    document.getElementById('status')!.innerHTML = 'status: connected'
 })
 
 socket.addEventListener('close', () => {
-    document.getElementById('status').innerHTML = 'status: disconnected'
+    document.getElementById('status')!.innerHTML = 'status: disconnected'
 })
 
 btnNames.forEach(button => {
-    document.getElementById(button).addEventListener('click', () => {
+    document.getElementById(button)!.addEventListener('click', () => {
         socket.send('From control panel: ' + button)
     })
 })
@@ -77,9 +77,9 @@ socket.addEventListener('message', message => {
         cv.turtle[1].position.set(tData.coord.x, tData.coord.y, tData.coord.z)
 
         //remove old objects
-        const removeInspectedBlock = (blockCoords) => {
-            if (cv.objects[`${blockCoords.x} ${blockCoords.y} ${blockCoords.z}`])
-                cv.removeBlock(cv.objects, [`${blockCoords.x} ${blockCoords.y} ${blockCoords.z}`])
+        const removeInspectedBlock = (rmBlock: Coord) => {
+            if (cv.objects[`${rmBlock.x} ${rmBlock.y} ${rmBlock.z}`])
+                cv.removeBlock(cv.objects, [`${rmBlock.x} ${rmBlock.y} ${rmBlock.z}`])
         }
         removeInspectedBlock(blockCoords.Down)
         removeInspectedBlock(blockCoords.Forward)
@@ -99,6 +99,6 @@ socket.addEventListener('message', message => {
     }
 })
 
-// document.getElementById('status').addEventListener('click', () => {
+// document.getElementById('status')!.addEventListener('click', () => {
 //     console.log(cv.objects)
 // })
