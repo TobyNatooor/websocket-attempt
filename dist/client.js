@@ -40,6 +40,11 @@ socket.addEventListener('message', message => {
         //move turtle to the new position
         cv.turtle[0].position.set(tData.coord.x, tData.coord.y, tData.coord.z);
         cv.turtle[1].position.set(tData.coord.x, tData.coord.y, tData.coord.z);
+        //move controls position
+        cv.controls.target.set(tData.coord.x, tData.coord.y, tData.coord.z);
+        cv.controls.update();
+        //move 3D model
+        // cv.model.position.set(tData.coord.x, tData.coord.y, (tData.coord.z + 0.2))
         //remove old objects
         const removeInspectedBlock = (rmBlock) => {
             if (cv.objects[`${rmBlock.x} ${rmBlock.y} ${rmBlock.z}`])

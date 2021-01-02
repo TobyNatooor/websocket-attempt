@@ -1,10 +1,15 @@
 
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r122/build/three.module.js'
 import { OrbitControls } from 'https://threejsfundamentals.org/threejs/resources/threejs/r122/examples/jsm/controls/OrbitControls.js'
+import { GLTFLoader } from 'https://threejsfundamentals.org/threejs/resources/threejs/r122/examples/jsm/loaders/GLTFLoader.js'
 
 const theCanvas = document.getElementById('theCanvas')
 const canvasWidth = getComputedStyle(theCanvas).getPropertyValue('--canvasWidth')
 const canvasHeight = getComputedStyle(theCanvas).getPropertyValue('--canvasHeight')
+
+export let turtle = []
+export let objects = {}
+export let geometry, edgeGeo, lines, material, cube, lineMat, model, controls
 
 //scene
 const scene = new THREE.Scene()
@@ -20,17 +25,25 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(theCanvas.clientWidth, theCanvas.clientHeight)
 //light
-const pointLight = new THREE.HemisphereLight('white', 'white', 2)
-pointLight.position.set(10, 10, 10)
+const hemLight = new THREE.HemisphereLight('white', 'white', 2)
+hemLight.position.set(10, 10, 10)
+scene.add(hemLight)
+const pointLight = new THREE.PointLight(0xff0000, 1, 100)
+hemLight.position.set(10, 10, 10)
 scene.add(pointLight)
 //controls
-const controls = new OrbitControls(camera, theCanvas)
+controls = new OrbitControls(camera, theCanvas)
 controls.target.set(0, 0, 0)
 controls.update()
+//model
+// const loader = new GLTFLoader()
+// loader.load('./model/turtle/scene.gltf', gltf => {
+//     model = gltf.scene
+//     model.scale.set(0.01, 0.01, 0.01)
+//     model.position.set(0, 0, 0.2)
+//     scene.add(model)
+// })
 //object(s)
-export let turtle = []
-export let objects = {}
-export let geometry, edgeGeo, lines, material, cube, lineMat
 export const newBlock = (pos, blockColor, blockType) => {
     geometry = new THREE.BoxGeometry(1, 1, 1)
     edgeGeo = new THREE.EdgesGeometry(geometry)
@@ -41,7 +54,7 @@ export const newBlock = (pos, blockColor, blockType) => {
 
     material = new THREE.MeshPhongMaterial({
         color: blockColor,
-        opacity: 0.7,
+        opacity: 0.5,
         transparent: true,
     })
     cube = new THREE.Mesh(geometry, material)
@@ -64,7 +77,6 @@ export const removeBlock = (object, propName) => {
     renderer.renderLists.dispose()
     delete object[propName]
 }
-newBlock({ x: 0, y: 0, z: 0 }, 'red', 'turtle')
 
 //animate
 const animate = () => {
@@ -73,6 +85,7 @@ const animate = () => {
 }
 animate()
 
+//resize
 window.addEventListener('resize', () => {
     theCanvas.style.height = canvasHeight
     theCanvas.style.width = canvasWidth
@@ -80,3 +93,6 @@ window.addEventListener('resize', () => {
     camera.aspect = theCanvas.clientWidth / theCanvas.clientHeight
     camera.updateProjectionMatrix()
 })
+
+//move main
+newBlock({ x: 0, y: 0, z: 0 }, 'red', 'turtle')
